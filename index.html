@@ -3,214 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa de Vida - Autoconocimiento Profundo</title>
+    <title>Mapa de Vida - v2.0</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        :root {
-            --primary: #2c3e50; --accent: #d35400; --bg: #f4f7f6; --card: #ffffff;
-            --text: #2c3e50; --green: #27ae60; --blue: #2980b9; --border: transparent;
-        }
-        [data-theme="high-contrast"] {
-            --primary: #000000; --accent: #ffff00; --bg: #000000; --card: #000000;
-            --text: #ffffff; --green: #00ff00; --blue: #00ffff; --border: 2px solid #ffffff;
-        }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; transition: 0.3s; line-height: 1.6; }
-        .container { max-width: 850px; margin: 0 auto; padding: 20px; }
-        header { text-align: center; padding: 30px 0; border-bottom: 3px solid var(--accent); margin-bottom: 20px; }
-        
-        .controls { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; background: var(--card); padding: 15px; border-radius: 12px; border: var(--border); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        select, .btn-mode { padding: 10px; border-radius: 8px; border: 1px solid #ccc; background: var(--card); color: var(--text); font-size: 1rem; cursor: pointer; }
-
-        .visual-map { position: relative; width: 300px; height: 300px; margin: 40px auto; background: var(--card); border-radius: 50%; border: var(--border); }
-        .star-svg { width: 100%; height: 100%; fill: none; stroke: #ccc; stroke-width: 1.5; }
-        .node { position: absolute; width: 50px; height: 50px; background: var(--accent); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #000; z-index: 10; font-size: 1.2rem; }
-        .node-label { position: absolute; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; width: 80px; text-align: center; color: var(--text); }
-
-        .results { display: none; margin-top: 30px; }
-        .card { background: var(--card); padding: 25px; margin-bottom: 20px; border-radius: 12px; border-left: 8px solid var(--accent); border: var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        .card h3 { margin-top: 0; color: var(--accent); border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        
-        .btn-main { width: 100%; background: var(--accent); color: #000; border: none; padding: 18px; border-radius: 12px; font-weight: bold; font-size: 1.2rem; cursor: pointer; margin-top: 10px; transition: transform 0.2s; }
-        .btn-main:active { transform: scale(0.98); }
-        .share-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .btn-social { padding: 15px; border-radius: 10px; border: none; color: white; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; }
-        
-        @media print { .no-print { display: none; } }
+        :root { --primary: #2c3e50; --accent: #d35400; --bg: #f4f7f6; --card: #ffffff; --text: #2c3e50; }
+        [data-theme="high-contrast"] { --primary: #000; --accent: #ffff00; --bg: #000; --card: #000; --text: #fff; }
+        body { font-family: sans-serif; background: var(--bg); color: var(--text); text-align: center; padding: 20px; transition: 0.3s; }
+        .container { max-width: 600px; margin: 0 auto; background: var(--card); padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 1px solid #ccc; }
+        .btn { width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
+        .btn-calc { background: var(--accent); color: #000; }
+        .card { text-align: left; background: var(--card); border-left: 5px solid var(--accent); padding: 15px; margin: 10px 0; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        input, select { padding: 10px; width: 90%; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <header>
-        <h1 id="ui-title">Mapa de Vida</h1>
-        <p id="ui-subtitle">Boussole numérique pour l'évolution personnelle</p>
-    </header>
-
-    <nav class="controls">
-        <select id="langSelect" onchange="changeLang()">
+    <div class="container">
+        <h1>Mapa de Vida</h1>
+        <p>Boussole numérique pour l'évolution personnelle</p>
+        
+        <select id="lang" onchange="updateLang()">
             <option value="es">Español 🇪🇸</option>
-            <option value="en">English 🇺🇸</option>
             <option value="fr">Français 🇫🇷</option>
-            <option value="pt">Português 🇧🇷</option>
+            <option value="en">English 🇺🇸</option>
         </select>
-        <button class="btn-mode" onclick="toggleContrast()" id="ui-contrast">🌓 Alto Contraste</button>
-    </nav>
+        <button onclick="toggleTheme()" class="btn">🌓 Alto Contraste</button>
 
-    <main style="text-align:center;">
-        <label for="birthDate" id="ui-date-label">Fecha de Nacimiento:</label><br><br>
-        <input type="date" id="birthDate" style="padding:15px; border-radius:10px; border:1px solid #ccc; width:250px; font-size:1.1rem;">
-        <button class="btn-main" onclick="generateMap()" id="ui-btn-calc">🔮 Generar Mi Mapa</button>
-    </main>
+        <label id="lblDate">Fecha de Nacimiento:</label><br>
+        <input type="date" id="birthDate">
+        <button class="btn btn-calc" onclick="generate()">🔮 Generar Mi Mapa</button>
 
-    <div id="results" class="results">
-        <div id="pdf-area" style="padding: 20px; background: var(--bg);">
-            <h2 style="text-align:center;" id="ui-res-h2">Análisis Cuántico de Vida</h2>
-            
-            <div class="visual-map">
-                <svg class="star-svg" viewBox="0 0 200 200"><polygon points="100,10 125,190 10,70 190,70 75,190" /></svg>
-                <div class="node" style="top:-15px; left:125px;" id="node-alma"></div>
-                <div class="node-label" style="top:-35px; left:110px;" id="lbl-alma">Alma</div>
-                <div class="node" style="top:180px; left:160px;" id="node-karma"></div>
-                <div class="node-label" style="top:235px; left:145px;" id="lbl-karma">Karma</div>
-                <div class="node" style="top:60px; left:-15px;" id="node-gift"></div>
-                <div class="node-label" style="top:65px; left:-95px;" id="lbl-gift">Regalo</div>
-                <div class="node" style="top:60px; right:-15px;" id="node-dest"></div>
-                <div class="node-label" style="top:65px; right:-95px;" id="lbl-dest">Destino</div>
-                <div class="node" style="top:180px; left:90px; background:var(--green); color:#fff;" id="node-miss"></div>
-                <div class="node-label" style="top:235px; left:75px;" id="lbl-miss">Misión</div>
+        <div id="results" style="display:none; margin-top:20px;">
+            <div id="capture-area">
+                <h2 id="resTitle">Tu Análisis Numerológico</h2>
+                <div id="details"></div>
             </div>
-
-            <div id="text-details"></div>
-        </div>
-
-        <div class="no-print">
-            <button class="btn-main" style="background:var(--blue); color:white;" onclick="savePDF()">📄 Descargar Reporte PDF</button>
-            <div class="share-group">
-                <button class="btn-social" style="background:#25d366" onclick="shareWA()">WhatsApp</button>
-                <button class="btn-social" style="background:#666" onclick="shareSocial()">Más Opciones</button>
-            </div>
+            <button class="btn" style="background:#2980b9; color:white;" onclick="downloadPDF()">📄 Descargar PDF</button>
         </div>
     </div>
-</div>
 
 <script>
-const DATA = {
-    es: {
-        title: "Mapa de Vida", subtitle: "Tu brújula para la evolución", date: "Selecciona tu fecha:", btn: "Generar Mi Mapa",
-        alma: "Alma", karma: "Karma", gift: "Regalo", dest: "Destino", miss: "Misión", contrast: "Alto Contraste", res: "Análisis Cuántico de Vida",
-        arq: {
-            1: { t: "El Líder Inconsciente", e: "Iniciativa pura y protección.", s: "Egoísmo o agresividad defensiva.", m: "Liderar con bondad y proteger al débil." },
-            2: { t: "El Mediador Diplomático", e: "Mente negativa que ve los riesgos.", s: "Miedo paralizante o indecisión.", m: "Asociarse sin perder la propia identidad." },
-            3: { t: "El Artista Expansivo", e: "Creatividad y alegría de vivir.", s: "Superficialidad o depresión.", m: "Confiar en la abundancia del universo." },
-            4: { t: "El Organizador Maestro", e: "Inteligencia lógica y estructura.", s: "Terquedad o frialdad mental.", m: "Poner el intelecto al servicio del bien común." },
-            5: { t: "El Disciplinado Físico", e: "Dominio del cuerpo y disciplina.", s: "Excesos físicos o falta de constancia.", m: "Ser un puente entre lo espiritual y lo físico." },
-            6: { t: "El Místico Intuitivo", e: "Intuición profunda y fe.", s: "Fanatismo o juicio hacia los demás.", m: "Perdonar y ver la divinidad en todo." },
-            7: { t: "El Líder Bondadoso", e: "Carisma y liderazgo inspirador.", s: "Orgullo o aislamiento.", m: "Inspirar a otros mediante la paz interna." },
-            8: { t: "El Sanador Pránico", e: "Poder de sanación y abundancia.", s: "Obsesión por lo material o mala salud.", m: "Sanar a otros y gestionar recursos éticos." },
-            9: { t: "El Maestro del Ser", e: "Sabiduría total y amor universal.", s: "Apego al pasado o soledad amarga.", m: "Cerrar ciclos con amor y enseñar sabiduría." },
-            10: { t: "El Guerrero Solar", e: "Coraje absoluto y resolución.", s: "Tiranía o miedo al fracaso.", m: "Iluminar el camino de otros sin destruir." },
-            11: { t: "El Faro Espiritual", e: "Conexión directa con la Fuente.", s: "Confusión mental o superioridad espiritual.", m: "Despertar la conciencia de la humanidad." }
+    const arq = {
+        1: { t: "Líder", m: "Liderar con bondad." }, 2: { t: "Mediador", m: "Diplomacia y unión." },
+        3: { t: "Artista", m: "Expresar alegría." }, 4: { t: "Organizador", m: "Estructura y servicio." },
+        5: { t: "Disciplinado", m: "Dominio del cuerpo." }, 6: { t: "Místico", m: "Intuición y fe." },
+        7: { t: "Inspirador", m: "Liderazgo compasivo." }, 8: { t: "Sanador", m: "Sanación y abundancia." },
+        9: { t: "Maestro", m: "Sabiduría universal." }, 10: { t: "Guerrero", m: "Coraje y resolución." },
+        11: { t: "Faro", m: "Despertar conciencias." }
+    };
+
+    function toggleTheme() { document.body.dataset.theme = document.body.dataset.theme === 'high-contrast' ? '' : 'high-contrast'; }
+
+    function reduce(n) {
+        if (n === 11 || n === 22) return n;
+        while (n > 11) n = String(n).split('').reduce((a, b) => a + parseInt(b), 0);
+        return n;
+    }
+
+    function generate() {
+        const val = document.getElementById('birthDate').value;
+        if (!val) return alert("Por favor selecciona una fecha");
+        const [y, m, d] = val.split('-').map(Number);
+        
+        const res = {
+            Alma: reduce(d),
+            Karma: reduce(m),
+            Regalo: reduce(parseInt(String(y).slice(-2))),
+            Destino: reduce(String(y).split('').reduce((a,b)=>a+parseInt(b),0)),
+            Misión: 0
+        };
+        res.Misión = reduce(res.Alma + res.Karma + res.Destino);
+
+        let html = "";
+        for (let k in res) {
+            const a = arq[res[k]] || { t: "Viajero", m: "Evolución continua" };
+            html += `<div class="card"><strong>${k} (${res[k]}):</strong> ${a.t}<br><small>${a.m}</small></div>`;
         }
-    },
-    en: {
-        title: "Life Map", subtitle: "Your compass for evolution", date: "Select your date:", btn: "Generate My Map",
-        alma: "Soul", karma: "Karma", gift: "Gift", dest: "Destiny", miss: "Mission", contrast: "High Contrast", res: "Quantum Life Analysis",
-        arq: { 1: { t: "Unconscious Leader", e: "Pure initiative and protection.", s: "Selfishness or defensiveness.", m: "Lead with kindness and protect the weak." } /* ... More descriptions can be added */ }
-    },
-    fr: {
-        title: "Carte de Vie", subtitle: "Votre boussole d'évolution", date: "Choisissez votre date:", btn: "Générer Ma Carte",
-        alma: "Âme", karma: "Karma", gift: "Cadeau", dest: "Destin", miss: "Mission", contrast: "Haut Contraste", res: "Analyse Quantique",
-        arq: { 1: { t: "Le Leader Inconscient", e: "Initiative pure et protection.", s: "Égoïsme ou agressivité.", m: "Diriger avec bonté." } }
+        document.getElementById('details').innerHTML = html;
+        document.getElementById('results').style.display = 'block';
     }
-};
 
-let currentLang = 'es';
-
-function changeLang() {
-    currentLang = document.getElementById('langSelect').value;
-    const l = DATA[currentLang] || DATA['es'];
-    document.getElementById('ui-title').innerText = l.title;
-    document.getElementById('ui-subtitle').innerText = l.subtitle;
-    document.getElementById('ui-date-label').innerText = l.date;
-    document.getElementById('ui-btn-calc').innerText = l.btn;
-    document.getElementById('lbl-alma').innerText = l.alma;
-    document.getElementById('lbl-karma').innerText = l.karma;
-    document.getElementById('lbl-gift').innerText = l.gift;
-    document.getElementById('lbl-dest').innerText = l.dest;
-    document.getElementById('lbl-miss').innerText = l.miss;
-    document.getElementById('ui-contrast').innerText = l.contrast;
-    document.getElementById('ui-res-h2').innerText = l.res;
-}
-
-function toggleContrast() { document.body.dataset.theme = document.body.dataset.theme === 'high-contrast' ? '' : 'high-contrast'; }
-
-function reduce(n) {
-    if ([11, 22, 33].includes(n)) return n;
-    while (n > 11) {
-        n = String(n).split('').reduce((a, b) => a + parseInt(b), 0);
-        if ([11, 22, 33].includes(n)) return n;
+    function downloadPDF() {
+        const element = document.getElementById('capture-area');
+        html2pdf().from(element).set({ margin: 10, filename: 'Mapa_Vida.pdf', html2canvas: { scale: 2 } }).save();
     }
-    if (n > 10 && n !== 11) n = String(n).split('').reduce((a, b) => a + parseInt(b), 0);
-    return n;
-}
-
-function generateMap() {
-    const input = document.getElementById('birthDate').value;
-    if (!input) return;
-    const [y, m, d] = input.split('-').map(Number);
-    const sumY = y.toString().split('').reduce((a, b) => a + parseInt(b), 0);
-    
-    const alma = reduce(d);
-    const karma = reduce(m);
-    const gift = reduce(parseInt(y.toString().slice(-2)));
-    const dest = reduce(sumY);
-    const miss = reduce(alma + karma + dest);
-
-    document.getElementById('node-alma').innerText = alma;
-    document.getElementById('node-karma').innerText = karma;
-    document.getElementById('node-gift').innerText = gift;
-    document.getElementById('node-dest').innerText = dest;
-    document.getElementById('node-miss').innerText = miss;
-
-    const summary = [
-        { l: DATA[currentLang].alma, v: alma },
-        { l: DATA[currentLang].karma, v: karma },
-        { l: DATA[currentLang].gift, v: gift },
-        { l: DATA[currentLang].dest, v: dest },
-        { l: DATA[currentLang].miss, v: miss }
-    ];
-
-    let html = "";
-    summary.forEach(item => {
-        const arq = (DATA[currentLang].arq && DATA[currentLang].arq[item.v]) || (DATA['es'].arq[item.v]);
-        html += `<div class="card">
-            <h3>${item.l}: ${arq.t} (${item.v})</h3>
-            <p><strong>✨ Esencia:</strong> ${arq.e}</p>
-            <p><strong>🌑 Sombra:</strong> ${arq.s}</p>
-            <p><strong>🎯 Misión Evolutiva:</strong> ${arq.m}</p>
-        </div>`;
-    });
-
-    document.getElementById('text-details').innerHTML = html;
-    document.getElementById('results').style.display = 'block';
-}
-
-function savePDF() {
-    const element = document.getElementById('pdf-area');
-    const opt = { margin: 10, filename: 'Mi_Mapa_De_Vida.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
-    html2pdf().set(opt).from(element).save();
-}
-
-function shareWA() {
-    const text = encodeURIComponent("¡Acabo de descubrir mi Mapa de Vida! Mira mi análisis numerológico aquí.");
-    window.open(`https://wa.me/?text=${text}`, '_blank');
-}
-
-function shareSocial() {
-    if (navigator.share) {
-        navigator.share({ title: 'Mapa de Vida', text: 'Descubre tu misión y arquetipos numerológicos.', url: window.location.href });
-    } else { alert("Copia el enlace de la barra del navegador para compartir."); }
-}
 </script>
 </body>
 </html>
