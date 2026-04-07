@@ -3,75 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa de Vida - Elite v3.0</title>
+    <title>Mapa de Vida - Edición Maestra</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        :root { --accent: #d35400; --bg: #f8f9fa; --text: #212529; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; font-size: 18px; }
-        .container { max-width: 850px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        h1 { font-size: 2.8rem; margin-bottom: 5px; color: #2c3e50; }
-        .input-group { background: #f1f3f5; padding: 25px; border-radius: 15px; margin: 20px 0; }
-        input[type="date"] { width: 100%; padding: 15px; font-size: 1.3rem; border: 2px solid #dee2e6; border-radius: 10px; }
-        .btn { width: 100%; padding: 20px; border: none; border-radius: 12px; font-weight: bold; font-size: 1.3rem; cursor: pointer; transition: 0.3s; margin-bottom: 15px; }
-        .btn-gen { background: var(--accent); color: white; }
-        .btn-gen:hover { background: #a04000; }
+        :root { --accent: #d35400; --bg: #f4f7f6; --text: #2c3e50; --card-bg: #ffffff; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 20px; font-size: 18px; line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        h1 { color: var(--accent); font-size: 2.5rem; text-align: center; margin-bottom: 5px; }
+        .input-section { background: #f1f3f5; padding: 20px; border-radius: 15px; margin: 20px 0; text-align: center; }
+        input[type="date"] { padding: 12px; font-size: 1.2rem; border-radius: 8px; border: 2px solid #ddd; width: 80%; }
         
-        /* Pentagrama Mejorado */
-        .pentagram-container { position: relative; width: 350px; height: 350px; margin: 50px auto; }
-        .star-svg { width: 100%; height: 100%; fill: none; stroke: #ced4da; stroke-width: 2.5; }
-        .node { position: absolute; width: 55px; height: 55px; background: var(--accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.4rem; border: 4px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 10; }
-        .node-label { position: absolute; font-size: 0.9rem; font-weight: 800; color: #495057; width: 100px; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+        /* Pentagrama */
+        .map-wrapper { position: relative; width: 300px; height: 300px; margin: 40px auto; }
+        .star-svg { width: 100%; height: 100%; fill: none; stroke: #ccc; stroke-width: 2; }
+        .node { position: absolute; width: 50px; height: 50px; background: var(--accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 10; font-size: 1.2rem; }
+        .node-label { position: absolute; font-size: 0.8rem; font-weight: bold; color: #555; text-transform: uppercase; width: 80px; text-align: center; }
 
-        /* Contenido Profundo */
-        .card { text-align: left; border-left: 10px solid var(--accent); padding: 30px; margin: 25px 0; background: #fff; border-radius: 0 15px 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .card h3 { font-size: 1.8rem; margin-top: 0; color: var(--accent); }
-        .card p { font-size: 1.2rem; margin: 12px 0; }
-        .btn-share { background: #25d366; color: white; }
-        .btn-pdf { background: #007bff; color: white; }
+        /* Tarjetas Informativas */
+        .card { text-align: left; background: #fff; border-left: 8px solid var(--accent); padding: 25px; margin: 20px 0; border-radius: 0 15px 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .card h3 { margin: 0 0 10px 0; color: var(--accent); font-size: 1.6rem; }
+        .card p { margin: 8px 0; }
+        
+        .btn { width: 100%; padding: 18px; border: none; border-radius: 12px; font-weight: bold; font-size: 1.2rem; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .btn-gen { background: var(--accent); color: white; }
+        .btn-pdf { background: #2980b9; color: white; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>Mapa de Vida</h1>
-    <p style="font-size: 1.3rem; color: #6c757d;">Análisis Profundo de Numerología Táctica</p>
+    <p style="text-align:center; color:#666;">Brújula de Autoconocimiento y Evolución</p>
 
-    <div class="input-group">
+    <div class="input-section">
         <input type="date" id="birthDate">
-        <button class="btn btn-gen" onclick="generate()" style="margin-top:20px;">✨ GENERAR ANÁLISIS COMPLETO</button>
+        <button class="btn btn-gen" onclick="generate()">🔮 GENERAR ANÁLISIS</button>
     </div>
 
     <div id="results" style="display:none;">
-        <div id="print-zone" style="background: white; padding: 20px;">
-            <div class="pentagram-container">
+        <div id="capture-area" style="background:white; padding:20px;">
+            <div class="map-wrapper">
                 <svg class="star-svg" viewBox="0 0 200 200"><polygon points="100,10 125,190 10,70 190,70 75,190" /></svg>
-                <div class="node" style="top:-30px; left:145px;" id="n-alma"></div>
-                <div class="node-label" style="top:-55px; left:125px;">Alma</div>
-                <div class="node" style="top:230px; left:185px;" id="n-karma"></div>
-                <div class="node-label" style="top:290px; left:165px;">Karma</div>
-                <div class="node" style="top:85px; left:-35px;" id="n-gift"></div>
-                <div class="node-label" style="top:95px; left:-135px;">Regalo</div>
-                <div class="node" style="top:85px; right:-35px;" id="n-dest"></div>
-                <div class="node-label" style="top:95px; right:-135px;">Destino</div>
-                <div class="node" style="top:230px; left:105px; background:#28a745;" id="n-miss"></div>
-                <div class="node-label" style="top:290px; left:85px;">Misión</div>
+                <div class="node" style="top:-20px; left:125px;" id="n-alma"></div>
+                <div class="node-label" style="top:-40px; left:110px;">Alma</div>
+                <div class="node" style="top:180px; left:165px;" id="n-karma"></div>
+                <div class="node-label" style="top:235px; left:150px;">Karma</div>
+                <div class="node" style="top:65px; left:-20px;" id="n-gift"></div>
+                <div class="node-label" style="top:75px; left:-105px;">Regalo</div>
+                <div class="node" style="top:65px; right:-20px;" id="n-dest"></div>
+                <div class="node-label" style="top:75px; right:-115px;">Destino</div>
+                <div class="node" style="top:180px; left:85px; background:#27ae60;" id="n-miss"></div>
+                <div class="node-label" style="top:235px; left:70px;">Misión</div>
             </div>
             <div id="details"></div>
         </div>
-
-        <button class="btn btn-pdf" onclick="makePDF()">📥 DESCARGAR REPORTE (PDF)</button>
-        <button class="btn btn-share" onclick="shareWhatsApp()">📲 COMPARTIR EN WHATSAPP</button>
+        <button class="btn btn-pdf" onclick="downloadPDF()">📥 DESCARGAR PDF</button>
     </div>
 </div>
 
 <script>
-const DATA_PROFUNDA = {
-    1: { t: "El Líder Original", e: "Poder de manifestación y voluntad individual.", m: "Aprender a iniciar proyectos sin depender de la aprobación externa.", s: "Tendencia al autoritarismo o inseguridad paralizante.", a: "Realizar una actividad nueva solo una vez por semana." },
-    4: { t: "El Arquitecto del Orden", e: "Capacidad de dar forma a lo intangible a través de la disciplina.", m: "Construir bases sólidas para la familia y la sociedad.", s: "Rigidez mental, miedo al cambio o exceso de responsabilidad.", a: "Organizar un espacio físico mientras se practica respiración consciente." },
-    8: { t: "El Alquimista del Poder", e: "Equilibrio entre el mundo material y espiritual.", m: "Generar abundancia para sanar y elevar a los demás.", s: "Obsesión por el control o miedo a la carencia económica.", a: "Donar algo valioso para romper el apego material." },
-    9: { t: "El Humanista Universal", e: "Culminación de la sabiduría y desapego total.", m: "Servir como guía espiritual para la transición de otros.", s: "Cargar con dolores del pasado o aislamiento social.", a: "Escribir una carta de perdón y quemarla bajo la luz de la luna." },
-    10: { t: "El Guerrero de la Luz", e: "Coraje para enfrentar la oscuridad propia y ajena.", m: "Abrir caminos donde otros ven muros infranqueables.", s: "Uso destructivo de la fuerza o cobardía encubierta.", a: "Exposición solar controlada de 10 minutos al amanecer." },
-    22: { t: "El Maestro Constructor Divino", e: "Visión cuántica para materializar sueños colectivos.", m: "Dejar un legado físico que transforme la vida de miles de personas.", s: "Sentirse abrumado por el potencial propio o soberbia espiritual.", a: "Dibujar un plano de un proyecto que ayude a tu comunidad." }
+const ARQUETIPOS = {
+    1: { t: "El Líder / Pionero", e: "Iniciativa, independencia e innovación.", s: "Egoísmo, autoritarismo o inseguridad.", m: "Liderar con bondad y abrir nuevos caminos.", a: "Caminar descalzo para conectar con la tierra." },
+    2: { t: "El Mediador / Socio", e: "Diplomacia, empatía y cooperación.", s: "Indecisión, dependencia o hipersensibilidad.", m: "Unir sin perder la propia identidad.", a: "Ejercicios de equilibrio y meditación en pareja." },
+    3: { t: "El Artista / Comunicador", e: "Creatividad, optimismo y alegría.", s: "Superficialidad, dispersión o búsqueda de aprobación.", m: "Expresar la belleza del alma al mundo.", a: "Escritura creativa o canto." },
+    4: { t: "El Organizador / Constructor", e: "Disciplina, estructura y lealtad.", s: "Rigidez, terquedad o frialdad emocional.", m: "Poner el orden al servicio del bien común.", a: "Organizar espacios físicos con respiración rítmica." },
+    5: { t: "El Explorador / Viajero", e: "Libertad, adaptabilidad y curiosidad.", s: "Impulsividad, inestabilidad o excesos.", m: "Aprender a fluir con los cambios de la vida.", a: "Viajes cortos a lugares desconocidos." },
+    6: { t: "El Nutridor / Protector", e: "Responsabilidad, amor y compasión.", s: "Sobreprotección, control o ansiedad.", m: "Crear armonía en el hogar y la comunidad.", a: "Cuidado de plantas o mascotas." },
+    7: { t: "El Sabio / Buscador", e: "Introspección, intuición y análisis.", s: "Aislamiento, frialdad o melancolía.", m: "Encontrar la verdad interna y compartirla.", a: "Meditación de silencio absoluto." },
+    8: { t: "El Alquimista / Poder", e: "Abundancia, realización y equilibrio material.", s: "Obsesión por el control o codicia.", m: "Gestionar recursos para sanar y elevar a otros.", a: "Limpieza energética con cristales." },
+    9: { t: "El Humanista / Maestro", e: "Compasión, generosidad y desapego.", s: "Dramatismo o desconexión de la realidad.", m: "Cerrar ciclos con amor y enseñar sabiduría.", a: "Actos de servicio desinteresado." },
+    11: { t: "El Faro Espiritual", e: "Conexión directa con la Fuente.", s: "Confusión mental o superioridad espiritual.", m: "Despertar la conciencia de la humanidad.", a: "Visualización de luz blanca." },
+    22: { t: "El Maestro Constructor Divino", e: "Visión cuántica y realización material.", s: "Arrogancia o desconexión de la realidad.", m: "Dejar un legado físico que transforme vidas.", a: "Planificación estratégica de metas globales." }
 };
 
 function reduce(n) {
@@ -82,9 +84,8 @@ function reduce(n) {
 
 function generate() {
     const val = document.getElementById('birthDate').value;
-    if(!val) return;
+    if (!val) return;
     const [y, m, d] = val.split('-').map(Number);
-    
     const results = {
         "Alma": reduce(d),
         "Karma": reduce(m),
@@ -102,33 +103,22 @@ function generate() {
 
     let html = "";
     for (let k in results) {
-        const info = DATA_PROFUNDA[results[k]] || { t: "Explorador", e: "Búsqueda de la verdad.", m: "Encontrar tu propio camino.", s: "Inestabilidad.", a: "Caminar por senderos desconocidos." };
+        const info = ARQUETIPOS[results[k]] || { t: "Viajero", e: "Evolución.", s: "Duda.", m: "Fluir.", a: "Caminar." };
         html += `<div class="card">
             <h3>${k}: ${info.t} (${results[k]})</h3>
-            <p><strong>💎 Esencia Divina:</strong> ${info.e}</p>
-            <p><strong>🎯 Misión Evolutiva:</strong> ${info.m}</p>
-            <p><strong>🌑 Desafío (Sombra):</strong> ${info.s}</p>
-            <p><strong>⚡ Llave de Activación:</strong> ${info.a}</p>
+            <p><strong>✨ Esencia:</strong> ${info.e}</p>
+            <p><strong>🌑 Sombra:</strong> ${info.s}</p>
+            <p><strong>🎯 Misión:</strong> ${info.m}</p>
+            <p><strong>⚡ Activación:</strong> ${info.a}</p>
         </div>`;
     }
     document.getElementById('details').innerHTML = html;
     document.getElementById('results').style.display = 'block';
 }
 
-function makePDF() {
-    const element = document.getElementById('print-zone');
-    const opt = {
-        margin: 10,
-        filename: 'Mi_Mapa_Vida.pdf',
-        html2canvas: { scale: 3, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-    html2pdf().from(element).set(opt).save();
-}
-
-function shareWhatsApp() {
-    const text = encodeURIComponent("¡Descubre tu propósito con este Mapa de Vida! Mira mis resultados aquí: " + window.location.href);
-    window.open(`https://wa.me/?text=${text}`, '_blank');
+function downloadPDF() {
+    const element = document.getElementById('capture-area');
+    html2pdf().from(element).set({ margin: 10, filename: 'Mapa_Vida.pdf', html2canvas: { scale: 2 } }).save();
 }
 </script>
 </body>
