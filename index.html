@@ -9,59 +9,35 @@
         :root {
             --primary: #4338ca;
             --accent: #d35400;
-            --glass: rgba(255, 255, 255, 0.9);
             --bg: #f0f4f8;
         }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: #1e293b; margin: 0; padding: 15px; }
         .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 30px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
         
-        /* Introducción y Glosario */
+        /* Sección Educativa */
+        .edu-section { background: #eef2ff; padding: 25px; border-radius: 20px; margin-bottom: 25px; border: 1px solid #c7d2fe; }
+        .edu-section h2 { color: var(--primary); margin-top: 0; font-size: 1.4rem; }
+
         .glossary { background: #f8fafc; padding: 25px; border-radius: 20px; margin-bottom: 30px; border: 1px solid #e2e8f0; }
         .glossary h3 { margin-top: 0; color: var(--primary); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
         .glossary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 0.85rem; }
         .glossary-item b { color: var(--accent); display: block; margin-bottom: 2px; }
 
-        /* Pentagrama Moderno */
-        .star-box { position: relative; width: 350px; height: 350px; margin: 40px auto; background: radial-gradient(circle, #fff 0%, #f1f5f9 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 50px rgba(0,0,0,0.02); }
-        .star-svg { width: 85%; height: 85%; filter: drop-shadow(0 0 10px rgba(67, 56, 202, 0.2)); }
+        /* Pentagrama */
+        .star-box { position: relative; width: 350px; height: 350px; margin: 40px auto; background: radial-gradient(circle, #fff 0%, #f1f5f9 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .star-svg { width: 85%; height: 85%; }
         .star-svg polygon { fill: none; stroke: #cbd5e1; stroke-width: 2; stroke-dasharray: 5; }
         
-        .node {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background: white;
-            color: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.3rem;
-            border: 3px solid var(--primary);
-            box-shadow: 0 8px 15px rgba(67, 56, 202, 0.2);
-            z-index: 10;
-        }
-        .node.mission { border-color: var(--accent); color: var(--accent); box-shadow: 0 8px 20px rgba(211, 84, 0, 0.3); }
+        .node { position: absolute; width: 50px; height: 50px; background: white; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3rem; border: 3px solid var(--primary); box-shadow: 0 8px 15px rgba(67, 56, 202, 0.2); z-index: 10; }
+        .node.mission { border-color: var(--accent); color: var(--accent); }
         
-        .label-float {
-            position: absolute;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            color: #64748b;
-            background: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            pointer-events: none;
-        }
+        .label-float { position: absolute; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #64748b; background: white; padding: 2px 8px; border-radius: 10px; pointer-events: none; }
 
-        /* Input & Buttons */
+        /* Controles */
         .input-area { background: var(--primary); color: white; padding: 30px; border-radius: 20px; text-align: center; margin-bottom: 30px; }
-        input[type="date"] { padding: 12px; border-radius: 10px; border: none; width: 80%; max-width: 250px; margin: 15px 0; font-weight: 600; }
-        .btn { background: var(--accent); color: white; border: none; padding: 18px 40px; border-radius: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; max-width: 300px; }
-        .btn:hover { transform: scale(1.02); filter: brightness(1.1); }
+        select, input[type="date"] { padding: 12px; border-radius: 10px; border: none; width: 80%; max-width: 250px; margin: 10px 0; font-weight: 600; }
+        .btn { background: var(--accent); color: white; border: none; padding: 18px 40px; border-radius: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; max-width: 300px; text-transform: uppercase; }
+        .btn:hover { transform: scale(1.02); }
 
         .result-card { border-left: 6px solid var(--primary); background: #fff; padding: 25px; margin-bottom: 20px; border-radius: 0 15px 15px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
     </style>
@@ -69,101 +45,160 @@
 <body>
 
 <div class="container">
-    <h1 style="text-align:center; color:var(--primary);">Mapa de Vida Tántrico</h1>
+    <div style="text-align: right; margin-bottom: 20px;">
+        <select id="langSelect" onchange="updateLanguage()">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="pt">Português</option>
+            <option value="de">Deutsch</option>
+        </select>
+    </div>
+
+    <h1 id="mainTitle" style="text-align:center; color:var(--primary);">Mapa de Vida Tántrico</h1>
     
-    <div class="glossary">
-        <h3>Los 5 Pilares de tu Ser</h3>
-        <div class="glossary-grid">
-            <div class="glossary-item"><b>Alma (Día)</b> La relación contigo mismo y tu mundo interior.</div>
-            <div class="glossary-item"><b>Karma (Mes)</b> Tu relación con el mundo exterior y desafíos sociales.</div>
-            <div class="glossary-item"><b>Regalo (Año)</b> Tu don natural; una energía positiva que ya posees.</div>
-            <div class="glossary-item"><b>Destino (Siglo)</b> Tu maestría de vidas pasadas; lo que vienes a perfeccionar.</div>
-            <div class="glossary-item"><b>Misión (Total)</b> Tu propósito final; el camino hacia tu realización.</div>
-        </div>
+    <div class="edu-section" id="eduContent">
+        <h2 id="eduTitle">¿Qué es la Numerología?</h2>
+        <p id="eduText">La numerología es una disciplina ancestral que estudia la relación mística entre los números y los eventos de la vida. Sirve como una herramienta de autoconocimiento para identificar talentos, desafíos y el propósito de vida a través de las frecuencias vibratorias de tu nacimiento.</p>
+    </div>
+
+    <div class="glossary" id="glossaryArea">
+        <h3 id="glossaryTitle">Los 5 Pilares de tu Ser</h3>
+        <div class="glossary-grid" id="glossaryGrid"></div>
     </div>
 
     <div class="input-area">
-        <label>Ingresa tu Fecha de Nacimiento:</label><br>
+        <label id="dateLabel">Ingresa tu Fecha de Nacimiento:</label><br>
         <input type="date" id="birthDate">
-        <button class="btn" onclick="generate()">✨ GENERAR MAPA DE LUZ</button>
+        <button class="btn" id="genBtn" onclick="generate()">✨ Generar Mapa de Luz</button>
     </div>
 
     <div id="results" style="display:none;">
         <div id="capture">
             <div class="star-box">
                 <svg class="star-svg" viewBox="0 0 200 200"><polygon points="100,15 130,185 15,75 185,75 70,185" /></svg>
-                
-                <div class="node" style="top:5px; left:150px;" id="n1"></div>
-                <div class="label-float" style="top:-10px; left:145px;">Alma</div>
-
-                <div class="node" style="bottom:10px; right:35px;" id="n2"></div>
-                <div class="label-float" style="bottom:-5px; right:30px;">Karma</div>
-
-                <div class="node" style="top:115px; left:0px;" id="n3"></div>
-                <div class="label-float" style="top:100px; left:-20px;">Regalo</div>
-
-                <div class="node" style="top:115px; right:0px;" id="n4"></div>
-                <div class="label-float" style="top:100px; right:-20px;">Destino</div>
-
-                <div class="node mission" style="bottom:10px; left:35px;" id="n5"></div>
-                <div class="label-float" style="bottom:-5px; left:30px; color:var(--accent);">Misión</div>
+                <div class="node" style="top:5px; left:150px;" id="n1"></div><div class="label-float" style="top:-10px; left:145px;" id="lb1">Alma</div>
+                <div class="node" style="bottom:10px; right:35px;" id="n2"></div><div class="label-float" style="bottom:-5px; right:30px;" id="lb2">Karma</div>
+                <div class="node" style="top:115px; left:0px;" id="n3"></div><div class="label-float" style="top:100px; left:-20px;" id="lb3">Regalo</div>
+                <div class="node" style="top:115px; right:0px;" id="n4"></div><div class="label-float" style="top:100px; right:-20px;" id="lb4">Destino</div>
+                <div class="node mission" style="bottom:10px; left:35px;" id="n5"></div><div class="label-float" style="bottom:-5px; left:30px; color:var(--accent);" id="lb5">Misión</div>
             </div>
             <div id="details"></div>
         </div>
-        <button class="btn" style="background:#1e293b; margin-top:20px;" onclick="download()">📥 DESCARGAR REPORTE PROFESIONAL</button>
+        <button class="btn" style="background:#1e293b; margin-top:20px;" id="pdfBtn" onclick="download()">📥 Descargar Reporte</button>
     </div>
 </div>
 
 <script>
-const DATA = {
-    1: { t: "Pionero", e: "Mente Positiva. Capacidad de inicio.", p: "Liderazgo original.", m: "Abrir caminos.", a: "Haz algo nuevo hoy." },
-    4: { t: "Arquitecto", e: "Mente Neutral. Equilibrio y justicia.", p: "Servicio y organización.", m: "Crear estructuras de paz.", a: "Organiza tu escritorio." },
-    6: { t: "Nutridor", e: "Línea de Arco. Enfoque y protección.", p: "Justicia y amor hogareño.", m: "Proteger con la verdad.", a: "Armoniza tu hogar." },
-    8: { t: "Alquimista", e: "Cuerpo Pránico. Energía y pureza.", p: "Manifestación y coraje.", m: "Sanar a través del prana.", a: "Respira profundamente 10 veces." },
-    10: { t: "Guerrero", e: "Cuerpo Radiante. Luz y valentía.", p: "Determinación absoluta.", m: "Ser un faro de luz.", a: "Toma una decisión difícil." },
-    22: { t: "Maestro", e: "Arquitecto Divino. Visión Global.", p: "Potencial infinito.", m: "Legado para la humanidad.", a: "Planifica a largo plazo." }
+const I18N = {
+    es: {
+        title: "Mapa de Vida Tántrico",
+        eduT: "¿Qué es la Numerología?",
+        eduD: "La numerología es una disciplina ancestral que estudia la relación mística entre los números y los eventos de la vida. Sirve como una herramienta de autoconocimiento para identificar talentos y propósitos.",
+        glosT: "Los 5 Pilares de tu Ser",
+        pillars: { alma: ["Alma", "Relación interna"], karma: ["Karma", "Relación externa"], regalo: ["Regalo", "Don innato"], destino: ["Destino", "Vidas pasadas"], mision: ["Misión", "Propósito final"] },
+        labels: ["Alma", "Karma", "Regalo", "Destino", "Misión"],
+        btn: "✨ Generar Mapa de Luz",
+        dateL: "Ingresa tu Fecha de Nacimiento:",
+        pdf: "📥 Descargar Reporte",
+        arch: { 1:"Pionero", 4:"Arquitecto", 6:"Nutridor", 8:"Alquimista", 10:"Guerrero", 22:"Maestro" }
+    },
+    en: {
+        title: "Tantric Life Map",
+        eduT: "What is Numerology?",
+        eduD: "Numerology is an ancient discipline that studies the mystical relationship between numbers and life events. It serves as a self-knowledge tool to identify talents and purposes.",
+        glosT: "The 5 Pillars of Your Being",
+        pillars: { alma: ["Soul", "Inner relationship"], karma: ["Karma", "Outer relationship"], regalo: ["Gift", "Innate talent"], destino: ["Destiny", "Past lives"], mision: ["Mission", "Final purpose"] },
+        labels: ["Soul", "Karma", "Gift", "Destiny", "Mission"],
+        btn: "✨ Generate Light Map",
+        dateL: "Enter Birth Date:",
+        pdf: "📥 Download Report",
+        arch: { 1:"Pioneer", 4:"Architect", 6:"Nurturer", 8:"Alchemist", 10:"Warrior", 22:"Master" }
+    },
+    fr: {
+        title: "Carte de Vie Tantrique",
+        eduT: "Qu'est-ce que la Numérologie ?",
+        eduD: "La numérologie est une discipline ancienne qui étudie la relation mystique entre les nombres et les événements de la vie. Elle sert d'outil de connaissance de soi.",
+        glosT: "Les 5 Piliers de Votre Être",
+        pillars: { alma: ["Âme", "Relation intérieure"], karma: ["Karma", "Relation extérieure"], regalo: ["Cadeau", "Talent inné"], destino: ["Destin", "Vies antérieures"], mision: ["Mission", "But final"] },
+        labels: ["Âme", "Karma", "Cadeau", "Destin", "Mission"],
+        btn: "✨ Générer la Carte",
+        dateL: "Date de Naissance :",
+        pdf: "📥 Télécharger",
+        arch: { 1:"Pionnier", 4:"Architecte", 6:"Nourricier", 8:"Alchimiste", 10:"Guerrier", 22:"Maître" }
+    },
+    pt: {
+        title: "Mapa de Vida Tântrico",
+        eduT: "O que é Numerologia?",
+        eduD: "A numerologia é uma disciplina ancestral que estuda a relação mística entre números e eventos. Serve como autoconhecimento para identificar talentos.",
+        glosT: "Os 5 Pilares do Seu Ser",
+        pillars: { alma: ["Alma", "Relação interna"], karma: ["Karma", "Relação externa"], regalo: ["Presente", "Dom inato"], destino: ["Destino", "Vidas passadas"], mision: ["Missão", "Propósito"] },
+        labels: ["Alma", "Karma", "Presente", "Destino", "Missão"],
+        btn: "✨ Gerar Mapa de Luz",
+        dateL: "Data de Nascimento:",
+        pdf: "📥 Baixar Relatório",
+        arch: { 1:"Pioneiro", 4:"Arquiteto", 6:"Nutridor", 8:"Alquimista", 10:"Guerreiro", 22:"Mestre" }
+    },
+    de: {
+        title: "Tantrische Lebenskarte",
+        eduT: "Was ist Numerologie?",
+        eduD: "Numerologie ist eine alte Disziplin, die die mystische Beziehung zwischen Zahlen und Lebensereignissen untersucht. Sie dient der Selbsterkenntnis.",
+        glosT: "Die 5 Säulen Ihres Seins",
+        pillars: { alma: ["Seele", "Innere Beziehung"], karma: ["Karma", "Äußere Beziehung"], regalo: ["Geschenk", "Talent"], destino: ["Schicksal", "Vergangenheit"], mision: ["Mission", "Ziel"] },
+        labels: ["Seele", "Karma", "Geschenk", "Schicksal", "Mission"],
+        btn: "✨ Lichtkarte Erzeugen",
+        dateL: "Geburtsdatum:",
+        pdf: "📥 Bericht Herunterladen",
+        arch: { 1:"Pionier", 4:"Architekt", 6:"Pfleger", 8:"Alchemist", 10:"Krieger", 22:"Meister" }
+    }
 };
+
+function updateLanguage() {
+    const l = I18N[document.getElementById('langSelect').value];
+    document.getElementById('mainTitle').innerText = l.title;
+    document.getElementById('eduTitle').innerText = l.eduT;
+    document.getElementById('eduText').innerText = l.eduD;
+    document.getElementById('glossaryTitle').innerText = l.glosT;
+    document.getElementById('dateLabel').innerText = l.dateL;
+    document.getElementById('genBtn').innerText = l.btn;
+    document.getElementById('pdfBtn').innerText = l.pdf;
+    
+    let gHtml = "";
+    for(let p in l.pillars) gHtml += `<div class="glossary-item"><b>${l.pillars[p][0]}</b> ${l.pillars[p][1]}</div>`;
+    document.getElementById('glossaryGrid').innerHTML = gHtml;
+    
+    for(let i=1; i<=5; i++) document.getElementById('lb'+i).innerText = l.labels[i-1];
+}
 
 function generate() {
     const val = document.getElementById('birthDate').value;
     if(!val) return;
+    const l = I18N[document.getElementById('langSelect').value];
     const [y, m, d] = val.split('-').map(Number);
     const red = (n) => {
         if(n === 11 || n === 22) return n;
         while(n > 11 && n !== 22) n = String(n).split('').reduce((a,b)=>a+parseInt(b),0);
         return n;
     };
-
-    const res = { 
-        "Alma": red(d), 
-        "Karma": red(m), 
-        "Regalo": red(parseInt(String(y).slice(-2))), 
-        "Destino": red(String(y).split('').reduce((a,b)=>a+parseInt(b),0)), 
-        "Misión": 0 
-    };
-    res.Misión = red(res.Alma + res.Karma + res.Destino);
-
-    const nodes = ["n1", "n2", "n3", "n4", "n5"];
-    Object.values(res).forEach((v, i) => document.getElementById(nodes[i]).innerText = v);
-
+    const res = { [l.labels[0]]: red(d), [l.labels[1]]: red(m), [l.labels[2]]: red(parseInt(String(y).slice(-2))), [l.labels[3]]: red(String(y).split('').reduce((a,b)=>a+parseInt(b),0)), [l.labels[4]]: 0 };
+    res[l.labels[4]] = red(res[l.labels[0]] + res[l.labels[1]] + res[l.labels[3]]);
+    
+    Object.values(res).forEach((v, i) => document.getElementById('n'+(i+1)).innerText = v);
+    
     let html = "";
     for(let k in res) {
-        const d = DATA[res[k]] || { t: "Buscador", e: "Evolución.", p: "Curiosidad.", m: "Fluir.", a: "Confía." };
-        html += `<div class="result-card">
-            <h3 style="margin-top:0; color:var(--primary);">${k}: ${d.t} (${res[k]})</h3>
-            <p><strong>Cuerpo Energético:</strong> ${d.e}</p>
-            <p><strong>Análisis:</strong> ${d.p}</p>
-            <p><strong>Propósito:</strong> ${d.m}</p>
-            <div style="font-size:0.9rem; color:var(--accent);">⚡ <b>Acción:</b> ${d.a}</div>
-        </div>`;
+        const a = l.arch[res[k]] || "---";
+        html += `<div class="result-card"><h3>${k}: ${a} (${res[k]})</h3></div>`;
     }
     document.getElementById('details').innerHTML = html;
     document.getElementById('results').style.display = 'block';
 }
 
 function download() {
-    html2pdf().from(document.getElementById('capture')).set({ margin: 10, filename: 'Mapa_Tantrico_Camilo.pdf', html2canvas: { scale: 3 } }).save();
+    html2pdf().from(document.getElementById('capture')).set({ margin: 10, filename: 'Mapa_Vida.pdf', html2canvas: { scale: 2 } }).save();
 }
+
+updateLanguage(); // Init
 </script>
 </body>
 </html>
