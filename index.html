@@ -3,95 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa de Vida - Numerología Tántrica</title>
+    <title>Mapa de Vida - Geometría Sagrada</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
-            --primary-grad: linear-gradient(135deg, #1e293b 0%, #4338ca 100%);
+            --primary: #4338ca;
             --accent: #d35400;
-            --text-main: #1f2937;
-            --bg-light: #f8fafc;
+            --glass: rgba(255, 255, 255, 0.9);
+            --bg: #f0f4f8;
         }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-light); color: var(--text-main); margin: 0; padding: 15px; line-height: 1.6; }
-        .main-card { max-width: 850px; margin: 0 auto; background: white; border-radius: 24px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #1e293b; margin: 0; padding: 15px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 30px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
         
-        /* Introducción Tántrica */
-        .intro-header { text-align: center; margin-bottom: 25px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; }
-        .intro-header h1 { color: #4338ca; font-size: 2.2rem; margin: 0; }
-        .intro-body { background: #fffcf0; border: 1px solid #fef3c7; padding: 25px; border-radius: 18px; margin-bottom: 35px; font-size: 0.95rem; color: #475569; }
-        .intro-body h2 { color: #92400e; font-size: 1.3rem; margin-top: 0; display: flex; align-items: center; gap: 8px; }
+        /* Introducción y Glosario */
+        .glossary { background: #f8fafc; padding: 25px; border-radius: 20px; margin-bottom: 30px; border: 1px solid #e2e8f0; }
+        .glossary h3 { margin-top: 0; color: var(--primary); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .glossary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 0.85rem; }
+        .glossary-item b { color: var(--accent); display: block; margin-bottom: 2px; }
 
-        /* Formulario */
-        .input-box { background: var(--primary-grad); padding: 30px; border-radius: 20px; text-align: center; color: white; margin-bottom: 40px; }
-        input[type="date"] { padding: 12px; border-radius: 10px; border: none; font-size: 1.1rem; width: 100%; max-width: 280px; margin: 10px 0; outline: none; }
-        .btn-main { background: var(--accent); color: white; border: none; padding: 16px 30px; border-radius: 12px; font-weight: bold; cursor: pointer; width: 100%; max-width: 320px; transition: 0.3s; font-size: 1rem; text-transform: uppercase; }
-        .btn-main:hover { transform: translateY(-2px); filter: brightness(1.1); }
-
-        /* Análisis */
-        .insight-card { border-radius: 18px; border: 1px solid #e5e7eb; padding: 25px; margin-bottom: 25px; background: white; position: relative; }
-        .insight-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--primary-grad); }
-        .section-title { font-weight: 800; color: #64748b; margin-top: 15px; display: block; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+        /* Pentagrama Moderno */
+        .star-box { position: relative; width: 350px; height: 350px; margin: 40px auto; background: radial-gradient(circle, #fff 0%, #f1f5f9 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 50px rgba(0,0,0,0.02); }
+        .star-svg { width: 85%; height: 85%; filter: drop-shadow(0 0 10px rgba(67, 56, 202, 0.2)); }
+        .star-svg polygon { fill: none; stroke: #cbd5e1; stroke-width: 2; stroke-dasharray: 5; }
         
-        /* Pentagrama */
-        .star-container { width: 280px; height: 280px; margin: 30px auto; position: relative; }
-        .star-svg { width: 100%; height: 100%; fill: none; stroke: #cbd5e1; stroke-width: 1.5; }
-        .node-circle { position: absolute; width: 45px; height: 45px; background: #1e293b; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .node {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: white;
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.3rem;
+            border: 3px solid var(--primary);
+            box-shadow: 0 8px 15px rgba(67, 56, 202, 0.2);
+            z-index: 10;
+        }
+        .node.mission { border-color: var(--accent); color: var(--accent); box-shadow: 0 8px 20px rgba(211, 84, 0, 0.3); }
+        
+        .label-float {
+            position: absolute;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #64748b;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            pointer-events: none;
+        }
+
+        /* Input & Buttons */
+        .input-area { background: var(--primary); color: white; padding: 30px; border-radius: 20px; text-align: center; margin-bottom: 30px; }
+        input[type="date"] { padding: 12px; border-radius: 10px; border: none; width: 80%; max-width: 250px; margin: 15px 0; font-weight: 600; }
+        .btn { background: var(--accent); color: white; border: none; padding: 18px 40px; border-radius: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; max-width: 300px; }
+        .btn:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+        .result-card { border-left: 6px solid var(--primary); background: #fff; padding: 25px; margin-bottom: 20px; border-radius: 0 15px 15px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
     </style>
 </head>
 <body>
 
-<div class="main-card">
-    <div class="intro-header">
-        <h1>Mapa de Vida</h1>
-        <p>Análisis de los 5 Cuerpos de la Numerología Tántrica</p>
-    </div>
-
-    <div class="intro-body">
-        <h2>🧘 ¿Qué es la Numerología Tántrica?</h2>
-        <p>Este sistema ancestral se basa en el conocimiento de los cuerpos energéticos del ser humano. A diferencia de otros métodos, la <strong>Numerología Tántrica</strong> utiliza tu fecha de nacimiento para revelar el equilibrio de tus "Cuerpos" y tu relación con el alma.</p>
-        <p><strong>El Pentagrama Sagrado:</strong> Los resultados analizan 5 pilares fundamentales: tu conexión interna (Alma), tu relación con el mundo (Karma), tus talentos innatos (Regalo), tus vidas pasadas (Destino) y el propósito de tu encarnación actual (Misión).</p>
-    </div>
-
-    <div class="input-box">
-        <label style="display:block; margin-bottom:10px; font-weight:600;">Tu Coordenada de Nacimiento:</label>
-        <input type="date" id="birthDate">
-        <button class="btn-main" onclick="runAnalysis()">✨ Descubrir Mi Propósito</button>
-    </div>
-
-    <div id="resultArea" style="display:none;">
-        <div id="printZone">
-            <h2 style="text-align:center; color:#1e293b;">Tu Configuración Tántrica</h2>
-            <div class="star-container">
-                <svg class="star-svg" viewBox="0 0 200 200"><polygon points="100,10 125,190 10,70 190,70 75,190" /></svg>
-                <div class="node-circle" style="top:-20px; left:128px;" id="val-1"></div>
-                <div class="node-circle" style="top:225px; left:175px;" id="val-2"></div>
-                <div class="node-circle" style="top:75px; left:-20px;" id="val-3"></div>
-                <div class="node-circle" style="top:75px; right:-20px;" id="val-4"></div>
-                <div class="node-circle" style="top:225px; left:80px; background:var(--accent);" id="val-5"></div>
-            </div>
-            <div id="contentBox"></div>
+<div class="container">
+    <h1 style="text-align:center; color:var(--primary);">Mapa de Vida Tántrico</h1>
+    
+    <div class="glossary">
+        <h3>Los 5 Pilares de tu Ser</h3>
+        <div class="glossary-grid">
+            <div class="glossary-item"><b>Alma (Día)</b> La relación contigo mismo y tu mundo interior.</div>
+            <div class="glossary-item"><b>Karma (Mes)</b> Tu relación con el mundo exterior y desafíos sociales.</div>
+            <div class="glossary-item"><b>Regalo (Año)</b> Tu don natural; una energía positiva que ya posees.</div>
+            <div class="glossary-item"><b>Destino (Siglo)</b> Tu maestría de vidas pasadas; lo que vienes a perfeccionar.</div>
+            <div class="glossary-item"><b>Misión (Total)</b> Tu propósito final; el camino hacia tu realización.</div>
         </div>
-        <button class="btn-main" style="background:#111827; margin-top:20px;" onclick="generatePDF()">📥 Descargar Reporte Tántrico (PDF)</button>
+    </div>
+
+    <div class="input-area">
+        <label>Ingresa tu Fecha de Nacimiento:</label><br>
+        <input type="date" id="birthDate">
+        <button class="btn" onclick="generate()">✨ GENERAR MAPA DE LUZ</button>
+    </div>
+
+    <div id="results" style="display:none;">
+        <div id="capture">
+            <div class="star-box">
+                <svg class="star-svg" viewBox="0 0 200 200"><polygon points="100,15 130,185 15,75 185,75 70,185" /></svg>
+                
+                <div class="node" style="top:5px; left:150px;" id="n1"></div>
+                <div class="label-float" style="top:-10px; left:145px;">Alma</div>
+
+                <div class="node" style="bottom:10px; right:35px;" id="n2"></div>
+                <div class="label-float" style="bottom:-5px; right:30px;">Karma</div>
+
+                <div class="node" style="top:115px; left:0px;" id="n3"></div>
+                <div class="label-float" style="top:100px; left:-20px;">Regalo</div>
+
+                <div class="node" style="top:115px; right:0px;" id="n4"></div>
+                <div class="label-float" style="top:100px; right:-20px;">Destino</div>
+
+                <div class="node mission" style="bottom:10px; left:35px;" id="n5"></div>
+                <div class="label-float" style="bottom:-5px; left:30px; color:var(--accent);">Misión</div>
+            </div>
+            <div id="details"></div>
+        </div>
+        <button class="btn" style="background:#1e293b; margin-top:20px;" onclick="download()">📥 DESCARGAR REPORTE PROFESIONAL</button>
     </div>
 </div>
 
 <script>
-// Datos profundos basados en la Numerología Tántrica
-const DEEP_DATA = {
-    1: { t: "El Pionero / Mente Positiva", e: "Iniciativa y capacidad de ver oportunidades.", p: "Liderazgo y originalidad.", m: "Liderar con el ejemplo.", a: "Realiza una acción audaz hoy." },
-    4: { t: "La Mente Neutral", e: "Capacidad de discernir y equilibrar.", p: "Lógica, organización y servicio.", m: "Construir paz a través del orden.", a: "Medita 5 minutos en silencio total." },
-    6: { t: "La Persona de Línea de Arco", e: "Enfoque, protección y justicia.", p: "Protector, amoroso y hogareño.", m: "Armonizar el entorno con la verdad.", a: "Crea un espacio de belleza en tu casa." },
-    8: { t: "El Cuerpo Pránico", e: "Energía vital, pureza y sanación.", p: "Manifestación, abundancia y coraje.", m: "Inspirar a otros con tu vitalidad.", a: "Haz ejercicios de respiración consciente." },
-    10: { t: "El Cuerpo Radiante", e: "Coraje real y presencia magnética.", p: "Valentía absoluta y determinación.", m: "Ser un guía luminoso para los demás.", a: "Toma el mando en una situación difícil." },
-    22: { t: "El Maestro Constructor", e: "Realización universal del alma.", p: "Visión global y sabiduría aplicada.", m: "Materializar el cielo en la tierra.", a: "Planifica una acción de impacto social." }
+const DATA = {
+    1: { t: "Pionero", e: "Mente Positiva. Capacidad de inicio.", p: "Liderazgo original.", m: "Abrir caminos.", a: "Haz algo nuevo hoy." },
+    4: { t: "Arquitecto", e: "Mente Neutral. Equilibrio y justicia.", p: "Servicio y organización.", m: "Crear estructuras de paz.", a: "Organiza tu escritorio." },
+    6: { t: "Nutridor", e: "Línea de Arco. Enfoque y protección.", p: "Justicia y amor hogareño.", m: "Proteger con la verdad.", a: "Armoniza tu hogar." },
+    8: { t: "Alquimista", e: "Cuerpo Pránico. Energía y pureza.", p: "Manifestación y coraje.", m: "Sanar a través del prana.", a: "Respira profundamente 10 veces." },
+    10: { t: "Guerrero", e: "Cuerpo Radiante. Luz y valentía.", p: "Determinación absoluta.", m: "Ser un faro de luz.", a: "Toma una decisión difícil." },
+    22: { t: "Maestro", e: "Arquitecto Divino. Visión Global.", p: "Potencial infinito.", m: "Legado para la humanidad.", a: "Planifica a largo plazo." }
 };
 
-function runAnalysis() {
+function generate() {
     const val = document.getElementById('birthDate').value;
     if(!val) return;
     const [y, m, d] = val.split('-').map(Number);
-    
-    // El sistema Tántrico suele usar reducción hasta 11 o mantener 22
     const red = (n) => {
         if(n === 11 || n === 22) return n;
         while(n > 11 && n !== 22) n = String(n).split('').reduce((a,b)=>a+parseInt(b),0);
@@ -99,34 +135,34 @@ function runAnalysis() {
     };
 
     const res = { 
-        "ALMA": red(d), 
-        "KARMA": red(m), 
-        "REGALO": red(parseInt(String(y).slice(-2))), 
-        "DESTINO": red(String(y).split('').reduce((a,b)=>a+parseInt(b),0)), 
-        "MISIÓN": 0 
+        "Alma": red(d), 
+        "Karma": red(m), 
+        "Regalo": red(parseInt(String(y).slice(-2))), 
+        "Destino": red(String(y).split('').reduce((a,b)=>a+parseInt(b),0)), 
+        "Misión": 0 
     };
-    res.MISIÓN = red(res.ALMA + res.KARMA + res.DESTINO);
+    res.Misión = red(res.Alma + res.Karma + res.Destino);
 
-    const ids = ["val-1", "val-2", "val-3", "val-4", "val-5"];
-    Object.values(res).forEach((v, i) => document.getElementById(ids[i]).innerText = v);
+    const nodes = ["n1", "n2", "n3", "n4", "n5"];
+    Object.values(res).forEach((v, i) => document.getElementById(nodes[i]).innerText = v);
 
     let html = "";
     for(let k in res) {
-        const d = DEEP_DATA[res[k]] || { t: "Buscador", e: "Evolución.", p: "Proceso.", m: "Fluir.", a: "Instinto." };
-        html += `<div class="insight-card">
-            <h3>${k}: ${d.t} (${res[k]})</h3>
-            <span class="section-title">Esencia Tántrica</span><p>${d.e}</p>
-            <span class="section-title">Desafío y Fortaleza</span><p>${d.p}</p>
-            <span class="section-title">Tu Destino Evolutivo</span><p>${d.m}</p>
-            <div style="background:#fefce8; padding:10px; border-radius:8px; margin-top:10px; font-size:0.9rem; border:1px solid #fef3c7;"><strong>⚡ Acción Clave:</strong> ${d.a}</div>
+        const d = DATA[res[k]] || { t: "Buscador", e: "Evolución.", p: "Curiosidad.", m: "Fluir.", a: "Confía." };
+        html += `<div class="result-card">
+            <h3 style="margin-top:0; color:var(--primary);">${k}: ${d.t} (${res[k]})</h3>
+            <p><strong>Cuerpo Energético:</strong> ${d.e}</p>
+            <p><strong>Análisis:</strong> ${d.p}</p>
+            <p><strong>Propósito:</strong> ${d.m}</p>
+            <div style="font-size:0.9rem; color:var(--accent);">⚡ <b>Acción:</b> ${d.a}</div>
         </div>`;
     }
-    document.getElementById('contentBox').innerHTML = html;
-    document.getElementById('resultArea').style.display = 'block';
+    document.getElementById('details').innerHTML = html;
+    document.getElementById('results').style.display = 'block';
 }
 
-function generatePDF() {
-    html2pdf().from(document.getElementById('printZone')).set({ margin: 10, filename: 'Reporte_Tantrico.pdf', html2canvas: { scale: 2 } }).save();
+function download() {
+    html2pdf().from(document.getElementById('capture')).set({ margin: 10, filename: 'Mapa_Tantrico_Camilo.pdf', html2canvas: { scale: 3 } }).save();
 }
 </script>
 </body>
