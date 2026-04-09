@@ -3,55 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa de Vida - Edición Profunda</title>
+    <title>Mapa de Vida - Edición Maestra</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
             --primary-grad: linear-gradient(135deg, #1e293b 0%, #4338ca 100%);
             --accent: #f59e0b;
             --text-main: #1f2937;
-            --bg-light: #f9fafb;
+            --bg-light: #f3f4f6;
         }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-light); color: var(--text-main); margin: 0; padding: 20px; line-height: 1.6; }
-        .main-card { max-width: 900px; margin: 0 auto; background: white; border-radius: 24px; padding: 35px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #4338ca; font-size: 2.2rem; margin-bottom: 10px; }
-        .intro { text-align: center; color: #6b7280; margin-bottom: 30px; font-size: 1.1rem; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-light); color: var(--text-main); margin: 0; padding: 15px; line-height: 1.6; }
+        .main-card { max-width: 850px; margin: 0 auto; background: white; border-radius: 24px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         
-        /* Input Section */
-        .input-box { background: #eef2ff; padding: 25px; border-radius: 20px; text-align: center; margin-bottom: 40px; }
-        input[type="date"] { padding: 12px; border-radius: 10px; border: 2px solid #c7d2fe; font-size: 1.1rem; width: 100%; max-width: 280px; }
-        .btn-main { background: var(--primary-grad); color: white; border: none; padding: 15px 30px; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; max-width: 320px; transition: 0.3s; }
-        .btn-main:hover { opacity: 0.9; transform: translateY(-2px); }
+        /* Introducción UX */
+        .intro-header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; }
+        .intro-header h1 { color: #4338ca; font-size: 2.4rem; margin: 0; }
+        .intro-body { background: #f8fafc; padding: 20px; border-radius: 15px; margin-bottom: 30px; font-size: 0.95rem; color: #475569; }
+        .intro-body h2 { color: #1e293b; font-size: 1.2rem; margin-top: 0; }
 
-        /* Análisis Profundo */
-        .insight-card { border-radius: 18px; border: 1px solid #e5e7eb; padding: 25px; margin-bottom: 25px; background: white; position: relative; overflow: hidden; transition: 0.3s; }
-        .insight-card:hover { border-color: #4338ca; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+        /* Formulario */
+        .input-box { background: var(--primary-grad); padding: 30px; border-radius: 20px; text-align: center; color: white; margin-bottom: 40px; }
+        input[type="date"] { padding: 12px; border-radius: 10px; border: none; font-size: 1.1rem; width: 100%; max-width: 280px; margin: 10px 0; }
+        .btn-main { background: var(--accent); color: white; border: none; padding: 16px 30px; border-radius: 12px; font-weight: bold; cursor: pointer; width: 100%; max-width: 320px; transition: 0.3s; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-main:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        /* Resultados */
+        .insight-card { border-radius: 18px; border: 1px solid #e5e7eb; padding: 25px; margin-bottom: 25px; background: white; position: relative; overflow: hidden; }
         .insight-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--primary-grad); }
-        .insight-card h3 { margin-top: 0; color: #4338ca; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; }
-        .section-title { font-weight: 800; color: #374151; margin-top: 15px; display: block; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
-        .explanation { color: #4b5563; margin-bottom: 10px; display: block; }
-        .activation-tip { background: #fffbeb; border: 1px solid #fde68a; padding: 12px; border-radius: 8px; margin-top: 10px; font-style: italic; color: #92400e; }
+        .insight-card h3 { margin-top: 0; color: #4338ca; font-size: 1.4rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+        .section-title { font-weight: 800; color: #64748b; margin-top: 15px; display: block; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+        .activation-tip { background: #fffbeb; border: 1px solid #fde68a; padding: 12px; border-radius: 8px; margin-top: 15px; font-style: italic; color: #92400e; font-size: 0.9rem; }
         
         /* Pentagrama */
-        .star-container { width: 300px; height: 300px; margin: 30px auto; position: relative; }
+        .star-container { width: 280px; height: 280px; margin: 30px auto; position: relative; }
         .star-svg { width: 100%; height: 100%; fill: none; stroke: #cbd5e1; stroke-width: 1.5; }
-        .node-circle { position: absolute; width: 45px; height: 45px; background: var(--primary-grad); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .node-circle { position: absolute; width: 45px; height: 45px; background: #1e293b; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); font-size: 1.1rem; }
     </style>
 </head>
 <body>
 
 <div class="main-card">
-    <h1>Mapa de Vida</h1>
-    <p class="intro">Análisis Ontológico y Vibratorio de Base 22</p>
+    <div class="intro-header">
+        <h1>Mapa de Vida</h1>
+        <p>Tu Geometría Sagrada en Base 22</p>
+    </div>
+
+    <div class="intro-body">
+        <h2>Bienvenido a tu Brújula Interior</h2>
+        <p>Esta aplicación descifra los códigos vibratorios de tu nacimiento mediante la <strong>Numerología de Base 22</strong>. No es adivinación, sino una herramienta de ingeniería personal para entender tus talentos naturales y desafíos evolutivos.</p>
+        <p><strong>¿Qué esperar?</strong> Al ingresar tu fecha, verás un pentagrama que conecta tu Alma, Karma, Regalo, Destino y Misión, junto con un análisis profundo de cada arquetipo.</p>
+    </div>
 
     <div class="input-box">
-        <label style="display:block; margin-bottom:10px; font-weight:600;">Fecha de Nacimiento:</label>
+        <label style="display:block; margin-bottom:5px; font-weight:600;">Ingresa tu Fecha de Nacimiento:</label>
         <input type="date" id="birthDate">
-        <button class="btn-main" onclick="runAnalysis()">DESCIFRAR MI CONFIGURACIÓN</button>
+        <button class="btn-main" onclick="runAnalysis()">✨ Generar Mi Mapa Profundo</button>
     </div>
 
     <div id="resultArea" style="display:none;">
         <div id="printZone">
+            <h2 style="text-align:center; color:#1e293b;">Tu Configuración Original</h2>
             <div class="star-container">
                 <svg class="star-svg" viewBox="0 0 200 200"><polygon points="100,10 125,190 10,70 190,70 75,190" /></svg>
                 <div class="node-circle" style="top:-20px; left:128px;" id="val-1"></div>
@@ -62,54 +73,18 @@
             </div>
             <div id="contentBox"></div>
         </div>
-        <button class="btn-main" style="background:#111827;" onclick="generatePDF()">📥 DESCARGAR ANÁLISIS COMPLETO (PDF)</button>
+        <button class="btn-main" style="background:#111827; margin-top:20px;" onclick="generatePDF()">📥 Descargar Reporte Completo (PDF)</button>
     </div>
 </div>
 
 <script>
 const DEEP_DATA = {
-    1: { 
-        t: "El Pionero / Iniciador", 
-        e: "Representa la fuerza pura de la creación y la voluntad individual. Es el número de los comienzos.",
-        p: "Posees una capacidad innata para liderar desde la originalidad. Tu mente funciona como un motor de nuevas ideas, pero tu reto es no aislarte en tu propio ego.",
-        m: "Tu camino es aprender a confiar en tu visión sin arrollar a los demás. Debes transformar la autoridad impuesta en liderazgo inspirado.",
-        a: "Inicia algo pequeño hoy que solo dependa de ti. Rompe la parálisis por análisis actuando."
-    },
-    4: { 
-        t: "El Arquitecto del Orden", 
-        e: "Simboliza la estabilidad, la tierra y las estructuras sólidas que sostienen la realidad.",
-        p: "Eres el pilar de cualquier proyecto. Tu mente es lógica, metódica y valora la seguridad. Sin embargo, puedes caer en la rigidez mental si las cosas no salen como planeas.",
-        m: "Aprender que la verdadera seguridad viene del equilibrio interno y no solo del control externo. Tu misión es construir legados que perduren.",
-        a: "Organiza un espacio físico o digital que tengas descuidado. El orden externo calmará tu mente."
-    },
-    6: {
-        t: "El Nutridor Responsable",
-        e: "La vibración del equilibrio, la familia y el servicio compasivo hacia los demás.",
-        p: "Tienes un radar natural para las necesidades ajenas. Buscas la armonía en todo lo que haces, pero a menudo cargas con responsabilidades que no te corresponden.",
-        m: "Servir con amor sin caer en el martirio. Tu misión es armonizar entornos conflictivos a través de la presencia y la escucha activa.",
-        a: "Dedica tiempo hoy a cuidar algo vivo (planta, mascota) o a escuchar a alguien sin dar consejos, solo estando presente."
-    },
-    8: {
-        t: "El Alquimista del Poder",
-        e: "El equilibrio entre el mundo espiritual y el material. La justicia y la abundancia.",
-        p: "Tienes la visión necesaria para manifestar grandes recursos. Eres ambicioso y capaz, pero tu sombra es el miedo a la escasez o la obsesión por el control financiero.",
-        m: "Transformar el poder personal en una herramienta de sanación para otros. Debes entender que la abundancia fluye cuando se comparte.",
-        a: "Analiza tu relación con el dinero. Haz un acto de generosidad que te saque de tu zona de confort."
-    },
-    10: {
-        t: "El Guerrero / Viajero (Rueda de la Fortuna)",
-        e: "Representa el movimiento, el cambio de ciclos y el coraje para enfrentar lo desconocido.",
-        p: "Tu vida está marcada por giros inesperados. Eres un buscador de experiencias, pero a veces la duda te frena justo antes del salto necesario.",
-        m: "Seguir el flujo de la vida con confianza. Tu misión es iluminar caminos nuevos sin destruir los puentes del pasado.",
-        a: "Toma una decisión que has estado postergando. Confía en que el movimiento generará la respuesta."
-    },
-    22: { 
-        t: "El Maestro Constructor", 
-        e: "El número maestro más potente. La capacidad de materializar sueños a gran escala para la humanidad.",
-        p: "Tienes una visión global que otros no alcanzan a ver. Sientes una presión interna por hacer algo 'grande'. Tu desafío es no sentirte abrumado por el potencial de tu propia alma.",
-        m: "Construir sistemas o proyectos que beneficien a miles. No te conformes con lo pequeño; naciste para dejar una huella en el mundo físico.",
-        a: "Escribe tu visión de aquí a 5 años, sin límites. Planifica el primer paso concreto para ese legado."
-    }
+    1: { t: "El Pionero", e: "Iniciativa y voluntad individual.", p: "Liderazgo natural y mente original.", m: "Abrir caminos con benevolencia.", a: "Haz algo hoy que dependa solo de ti." },
+    4: { t: "El Arquitecto", e: "Estabilidad y estructura sólida.", p: "Lógica y lealtad inquebrantable.", m: "Construir bases duraderas.", a: "Organiza tu entorno para calmar tu mente." },
+    6: { t: "El Nutridor", e: "Amor, familia y armonía.", p: "Compassivo y protector por naturaleza.", m: "Equilibrar el servicio con el amor propio.", a: "Cuida algo vivo hoy (planta o mascota)." },
+    8: { t: "El Alquimista", e: "Poder material y equilibrio espiritual.", p: "Gran capacidad de manifestación y abundancia.", m: "Gestionar recursos para sanar el mundo.", a: "Realiza un acto de generosidad consciente." },
+    10: { t: "El Guerrero", e: "Cambio de ciclos y movimiento.", p: "Coraje para enfrentar lo desconocido.", m: "Fluir con la vida sin miedos.", a: "Toma esa decisión que has postergado." },
+    22: { t: "El Maestro Constructor", e: "Realización a gran escala.", p: "Visión global y potencial cuántico.", m: "Dejar un legado para la humanidad.", a: "Planifica una meta grande para los próximos 5 años." }
 };
 
 function runAnalysis() {
@@ -122,29 +97,20 @@ function runAnalysis() {
         return n;
     };
 
-    const results = {
-        "ALMA": red(d),
-        "KARMA": red(m),
-        "REGALO": red(parseInt(String(y).slice(-2))),
-        "DESTINO": red(String(y).split('').reduce((a,b)=>a+parseInt(b),0)),
-        "MISIÓN": 0
-    };
-    results.MISIÓN = red(results.ALMA + results.KARMA + results.DESTINO);
+    const res = { "ALMA": red(d), "KARMA": red(m), "REGALO": red(parseInt(String(y).slice(-2))), "DESTINO": red(String(y).split('').reduce((a,b)=>a+parseInt(b),0)), "MISIÓN": 0 };
+    res.MISIÓN = red(res.ALMA + res.KARMA + res.DESTINO);
 
     const ids = ["val-1", "val-2", "val-3", "val-4", "val-5"];
-    Object.values(results).forEach((v, i) => document.getElementById(ids[i]).innerText = v);
+    Object.values(res).forEach((v, i) => document.getElementById(ids[i]).innerText = v);
 
     let html = "";
-    for(let k in results) {
-        const d = DEEP_DATA[results[k]] || { t: "Explorador", e: "Vibración de búsqueda.", p: "Tienes curiosidad innata.", m: "Encontrar tu verdad.", a: "Sigue tu instinto." };
+    for(let k in res) {
+        const d = DEEP_DATA[res[k]] || { t: "Explorador", e: "Búsqueda.", p: "Curiosidad.", m: "Fluir.", a: "Sigue tu instinto." };
         html += `<div class="insight-card">
-            <h3>${k}: ${d.t} (${results[k]})</h3>
-            <span class="section-title">¿Qué significa esta energía?</span>
-            <span class="explanation">${d.e}</span>
-            <span class="section-title">Tu Perfil Profundo</span>
-            <span class="explanation">${d.p}</span>
-            <span class="section-title">Tu Propósito Evolutivo</span>
-            <span class="explanation">${d.m}</span>
+            <h3>${k}: ${d.t} (${res[k]})</h3>
+            <span class="section-title">Energía Dominante</span><span>${d.e}</span>
+            <span class="section-title">Tu Perfil Profundo</span><span>${d.p}</span>
+            <span class="section-title">Tu Propósito</span><span>${d.m}</span>
             <div class="activation-tip"><strong>⚡ Activación:</strong> ${d.a}</div>
         </div>`;
     }
@@ -153,8 +119,7 @@ function runAnalysis() {
 }
 
 function generatePDF() {
-    const opt = { margin: 10, filename: 'Analisis_Numerologico.pdf', html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4' } };
-    html2pdf().from(document.getElementById('printZone')).set(opt).save();
+    html2pdf().from(document.getElementById('printZone')).set({ margin: 10, filename: 'Mapa_Vida.pdf', html2canvas: { scale: 2 } }).save();
 }
 </script>
 </body>
