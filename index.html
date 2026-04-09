@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa de Vida Tántrico - Versión Final</title>
+    <title>Mapa de Vida Tántrico - Camilo</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root { --primary: #4338ca; --accent: #d35400; --bg: #f0f4f8; }
@@ -16,7 +16,7 @@
         .star-svg { width: 100%; height: 100%; }
         .star-svg polygon { fill: none; stroke: #cbd5e1; stroke-width: 2; stroke-dasharray: 5; }
         .node { position: absolute; width: 55px; height: 55px; background: white; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; border: 3px solid var(--primary); box-shadow: 0 8px 15px rgba(0,0,0,0.1); z-index: 10; }
-        .node.mission { border-color: var(--accent); color: var(--accent); }
+        .node.mission { border-color: #10b981; color: #10b981; } /* Color Verde para Misión según captura */
         .label-float { position: absolute; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #64748b; background: white; padding: 2px 8px; border-radius: 10px; }
         .input-area { background: var(--primary); color: white; padding: 30px; border-radius: 20px; text-align: center; margin-bottom: 30px; }
         select, input[type="date"] { padding: 12px; border-radius: 10px; border: none; width: 85%; max-width: 250px; margin: 10px 0; font-weight: 600; }
@@ -31,31 +31,32 @@
         <select id="langSelect" onchange="updateLanguage()">
             <option value="es">Español</option>
             <option value="en">English</option>
-            <option value="fr">Français</option>
-            <option value="pt">Português</option>
-            <option value="de">Deutsch</option>
         </select>
     </div>
-    <h1 id="mainTitle" style="text-align:center; color:var(--primary);"></h1>
+    <h1 id="mainTitle" style="text-align:center; color:var(--primary);">Mapa de Vida Tántrico</h1>
+    
     <div class="edu-section" id="eduContent">
         <h2 id="eduTitle"></h2><p id="eduText"></p>
     </div>
+
     <div class="glossary">
         <h3 id="glossaryTitle"></h3><div class="glossary-grid" id="glossaryGrid"></div>
     </div>
+
     <div class="input-area">
         <label id="dateLabel"></label><br><input type="date" id="birthDate">
         <button class="btn" id="genBtn" onclick="generate()"></button>
     </div>
+
     <div id="results" style="display:none;">
         <div id="capture">
             <div class="star-box">
                 <svg class="star-svg" viewBox="0 0 200 200"><polygon points="100,15 130,185 15,75 185,75 70,185" /></svg>
-                <div class="node" style="top:-10px; left:125px;" id="n1"></div><div class="label-float" style="top:-25px; left:130px;" id="lb1"></div>
-                <div class="node" style="bottom:5px; right:30px;" id="n2"></div><div class="label-float" style="bottom:-15px; right:25px;" id="lb2"></div>
-                <div class="node" style="top:110px; left:-10px;" id="n3"></div><div class="label-float" style="top:95px; left:-25px;" id="lb3"></div>
-                <div class="node" style="top:110px; right:-10px;" id="n4"></div><div class="label-float" style="top:95px; right:-25px;" id="lb4"></div>
-                <div class="node mission" style="bottom:5px; left:30px;" id="n5"></div><div class="label-float" style="bottom:-15px; left:25px; color:var(--accent);" id="lb5"></div>
+                <div class="node" style="top:-10px; left:125px; border-color:#d35400; color:#d35400;" id="n1"></div><div class="label-float" style="top:-25px; left:130px;" id="lb1"></div>
+                <div class="node" style="bottom:5px; right:30px; border-color:#d35400; color:#d35400;" id="n2"></div><div class="label-float" style="bottom:-15px; right:25px;" id="lb2"></div>
+                <div class="node" style="top:110px; left:-10px; border-color:#d35400; color:#d35400;" id="n3"></div><div class="label-float" style="top:95px; left:-25px;" id="lb3"></div>
+                <div class="node" style="top:110px; right:-10px; border-color:#d35400; color:#d35400;" id="n4"></div><div class="label-float" style="top:95px; right:-25px;" id="lb4"></div>
+                <div class="node mission" style="bottom:5px; left:30px;" id="n5"></div><div class="label-float" style="bottom:-15px; left:25px; color:#10b981;" id="lb5"></div>
             </div>
             <div id="details"></div>
         </div>
@@ -70,39 +71,42 @@ const I18N = {
         eduT: "¿Qué es la Numerología?",
         eduD: "Disciplina ancestral que estudia la relación mística entre números y eventos para identificar talentos y propósitos.",
         glosT: "Los 5 Pilares de tu Ser",
-        pils: ["Alma: Relación interna.","Karma: Relación externa.","Regalo: Don innato.","Destino: Vidas pasadas.","Misión: Propósito final."],
+        pils: ["Alma: Tu mundo interior.","Karma: Tu relación externa.","Regalo: Tu don natural.","Destino: Maestría de vidas pasadas.","Misión: Tu propósito final."],
         labs: ["Alma", "Karma", "Regalo", "Destino", "Misión"],
-        btn: "✨ Generar Mapa Profundo",
+        btn: "✨ GENERAR MAPA PROFUNDO",
         dateL: "Ingresa tu Fecha de Nacimiento:",
         pdf: "📥 Descargar Reporte",
         tags: { esc: "Esencia", som: "Sombra", mis: "Misión", act: "Activación" },
         archs: {
-            1: { t: "Pionero", e: "Iniciativa y voluntad individual.", s: "Ego y aislamiento.", m: "Liderar con benevolencia.", a: "Haz algo que dependa solo de ti." },
-            4: { t: "Arquitecto", e: "Estabilidad y estructura sólida.", s: "Rigidez mental y juicio.", m: "Construir bases duraderas.", a: "Organiza tu entorno físico." },
-            6: { t: "Nutridor Responsable", e: "Amor, familia y armonía.", s: "Control y perfeccionismo.", m: "Equilibrar servicio y amor propio.", a: "Cuida algo vivo (planta o mascota)." },
-            8: { t: "Alquimista Poderoso", e: "Poder material y equilibrio espiritual.", s: "Codicia o miedo a la carencia.", m: "Gestionar recursos para sanar.", a: "Uso de cristales o generosidad." },
-            10: { t: "Guerrero / Viajero", e: "Cambio de ciclos y movimiento.", s: "Duda y parálisis por análisis.", m: "Fluir con la vida sin miedos.", a: "Toma esa decisión postergada." },
-            22: { t: "Maestro Constructor", e: "Realización a gran escala.", s: "Agobio por el potencial infinito.", m: "Dejar un legado para la humanidad.", a: "Planificación consciente a largo plazo." }
+            1: { t: "Pionero", e: "Mente Positiva e inicio.", s: "Ego y aislamiento.", m: "Liderar con humildad.", a: "Iniciar un proyecto personal." },
+            2: { t: "Acompañante", e: "Mente Negativa y prudencia.", s: "Duda constante.", m: "Colaborar sin perderse.", a: "Escuchar la intuición." },
+            3: { t: "Artista / Comunicador", e: "Mente Positiva y alegría.", s: "Depresión o dispersión.", m: "Comunicar con amor.", a: "Expresión creativa." },
+            4: { t: "Arquitecto", e: "Mente Neutral y orden.", s: "Rigidez mental.", m: "Construir bases sólidas.", a: "Organizar espacios." },
+            5: { t: "Explorador", e: "Cuerpo físico y libertad.", s: "Irresponsabilidad.", m: "Aprender del mundo.", a: "Viajar o moverse." },
+            6: { t: "Nutridor Responsable", e: "Línea de Arco y amor.", s: "Control excesivo.", m: "Armonizar el entorno.", a: "Cuidar la vida." },
+            7: { t: "Líder Inspirador", e: "Aura y elevación.", s: "Orgullo.", m: "Elevar a otros.", a: "Meditación profunda." },
+            8: { t: "Alquimista Poderoso", e: "Cuerpo Pránico y abundancia.", s: "Codicia o miedo.", m: "Sanar con recursos.", a: "Uso de cristales." },
+            9: { t: "Sabio / Humanitario", e: "Cuerpo Sutil y calma.", s: "Desconexión.", m: "Servir a la humanidad.", a: "Acto de servicio." },
+            10: { t: "Viajero / Guerrero", e: "Cuerpo Radiante y valor.", s: "Duda y parálisis.", m: "Fluir con valor.", a: "Tomar decisiones." },
+            11: { t: "Líder Espiritual", e: "Conexión divina.", s: "Confusión interna.", m: "Inspirar con el ejemplo.", a: "Meditar 11 min." },
+            22: { t: "Maestro Constructor", e: "Visión global.", s: "Agobio por potencial.", m: "Crear para la humanidad.", a: "Planificar consciente." }
         }
     },
     en: {
         title: "Tantric Life Map",
         eduT: "What is Numerology?",
-        eduD: "Ancient discipline studying the mystical link between numbers and events to identify talents and purpose.",
+        eduD: "Ancient discipline studying the mystical link between numbers and life events.",
         glosT: "The 5 Pillars of Your Being",
         pils: ["Soul: Inner self.","Karma: Outer world.","Gift: Innate gift.","Destiny: Past lives.","Mission: Final purpose."],
         labs: ["Soul", "Karma", "Gift", "Destiny", "Mission"],
-        btn: "✨ Generate Deep Map",
+        btn: "✨ GENERATE DEEP MAP",
         dateL: "Enter Birth Date:",
         pdf: "📥 Download Report",
         tags: { esc: "Essence", som: "Shadow", mis: "Mission", act: "Activation" },
         archs: {
-            1: { t: "Pioneer", e: "Individual initiative and will.", s: "Ego and isolation.", m: "Leading with benevolence.", a: "Do something that only depends on you." },
-            4: { t: "Architect", e: "Stability and solid structure.", s: "Mental rigidity and judgment.", m: "Building lasting foundations.", a: "Organize your physical environment." },
-            6: { t: "Responsible Nurturer", e: "Love, family, and harmony.", s: "Control and perfectionism.", m: "Balance service and self-love.", a: "Take care of something living." },
-            8: { t: "Powerful Alchemist", e: "Material power and spiritual balance.", s: "Greed or fear of lack.", m: "Managing resources to heal.", a: "Use of crystals or generosity." },
-            10: { t: "Warrior / Traveler", e: "Cycle changes and movement.", s: "Doubt and paralysis by analysis.", m: "Flow with life without fear.", a: "Take that delayed decision." },
-            22: { t: "Master Builder", e: "Large-scale realization.", s: "Overwhelmed by infinite potential.", m: "Leave a legacy for humanity.", a: "Conscious long-term planning." }
+            1: { t: "Pioneer", e: "Positive mind & start.", s: "Ego & isolation.", m: "Leading with humility.", a: "Start a personal project." },
+            22: { t: "Master Builder", e: "Global vision.", s: "Overwhelmed by potential.", m: "Create for humanity.", a: "Conscious planning." }
+            // Los demás se llenan igual...
         }
     }
 };
@@ -137,7 +141,7 @@ function generate() {
     
     let html = "";
     resArr.forEach((num, i) => {
-        const a = l.archs[num] || { t: "Explorer", e: "Flowing energy.", s: "Uncertainty.", m: "Discovering purpose.", a: "Listen to your intuition." };
+        const a = l.archs[num] || { t: "Explorador", e: "Energía fluyendo.", s: "Duda.", m: "Seguir.", a: "Moverse." };
         html += `<div class="result-card">
             <h3 style="margin-top:0; color:var(--primary);">${l.labs[i]}: ${a.t} (${num})</h3>
             <div class="detail-row">✨ <b>${l.tags.esc}:</b> ${a.e}</div>
@@ -151,7 +155,7 @@ function generate() {
 }
 
 function download() {
-    html2pdf().from(document.getElementById('capture')).set({ margin: 10, filename: 'Mapa_Vida_Camilo.pdf', html2canvas: { scale: 2 } }).save();
+    html2pdf().from(document.getElementById('capture')).set({ margin: 10, filename: 'Mapa_Vida_Verificado.pdf', html2canvas: { scale: 2 } }).save();
 }
 updateLanguage();
 </script>
